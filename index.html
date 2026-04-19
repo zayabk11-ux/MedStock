@@ -1,342 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#007bff">
-<meta name="mobile-web-app-capable" content="yes">
-<link rel="apple-touch-icon" href="icon.png">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MedStock Pro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  :root {
-    --bg:         #0f0f0f;
-    --surface:    #181818;
-    --primary:    #c8f05a; 
-    --accent-red: #f05a5a;
-    --accent-warn:#f0b45a;
-    --text:       #e8e8e8;
-    --muted:      #666666;
-    --border:     #2a2a2a;
-    --font-serif: "Georgia", serif;
-    --font-mono:  'DM Mono', monospace;
-  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  :root {
+    /* Color Palette from your favorite dark theme */
+    --bg:         #0f0f0f;
+    --surface:    #181818;
+    --primary:    #c8f05a; /* Lime Green */
+    --accent-red: #f05a5a;
+    --accent-warn:#f0b45a;
+    --text:       #e8e8e8;
+    --muted:      #666666;
+    --border:     #2a2a2a;
+    --font-serif: "Georgia", serif;
+    --font-mono:  'DM Mono', monospace;
+  }
 
-  body {
-    font-family: var(--font-mono);
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 24px 16px 80px;
-    -webkit-font-smoothing: antialiased;
-  }
+  body {
+    font-family: var(--font-mono);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 16px 80px;
+    -webkit-font-smoothing: antialiased;
+  }
 
-  .app { max-width: 480px; margin: 0 auto; }
+  .app { max-width: 480px; margin: 0 auto; }
 
-  /* Header */
-  .header {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 32px; padding-bottom: 20px;
-    border-bottom: 1px solid var(--border);
-  }
-  .wordmark { font-family: var(--font-serif); font-size: 28px; color: var(--primary); font-weight: 300; }
-  .sub-head { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 4px;}
+  /* Header */
+  .header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 32px; padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .wordmark { 
+    font-family: var(--font-serif); 
+    font-size: 28px; 
+    color: var(--primary); 
+    font-weight: 300; 
+  }
+  .sub-head { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 4px;}
 
-  .btn-add {
-    background: var(--primary); color: #0f0f0f;
-    border: none; border-radius: 8px; padding: 10px 16px;
-    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
-    cursor: pointer; text-transform: uppercase; transition: transform 0.1s;
-  }
-  .btn-add:active { transform: scale(0.95); }
+  .btn-add {
+    background: var(--primary); color: #0f0f0f;
+    border: none; border-radius: 8px; padding: 8px 14px;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+    cursor: pointer; text-transform: uppercase;
+  }
 
-  /* Summary Strip */
-  .strip { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
-  .strip-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 12px; padding: 16px;
-  }
-  .strip-label { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-  .strip-val { font-size: 24px; color: var(--primary); font-weight: 500; }
-  .strip-val.alert { color: var(--accent-red); }
-  .strip-sub { font-size: 10px; color: var(--muted); margin-top: 4px; }
+  /* Summary Strip (from the Light version) */
+  .strip { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
+  .strip-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+  }
+  .strip-label { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .strip-val { font-size: 24px; color: var(--primary); }
+  .strip-val.alert { color: var(--accent-red); }
+  .strip-sub { font-size: 10px; color: var(--muted); margin-top: 4px; }
 
-  .sec-label { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 24px 0 12px; text-align: center; border-bottom: 1px solid #222; padding-bottom: 8px; }
-  .sec-label.inj { color: var(--primary); border-bottom-color: var(--primary); }
+  .sec-label { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
 
-  /* Medicine Card */
-  .med-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 16px; padding: 20px;
-    margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;
-  }
-  .med-card.low { border: 1px solid var(--accent-red); }
-  
-  .med-info { flex: 1; }
-  .med-name { 
-    font-family: var(--font-serif); 
-    font-size: 18px; 
-    font-weight: 600; 
-    margin-bottom: 4px; 
-    color: #fff; 
-    text-transform: capitalize !important; 
-  }
-  .med-meta { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
-  
-  .med-days { font-size: 11px; font-weight: 500; }
-  .days-ok { color: var(--primary); }
-  .days-warn { color: var(--accent-warn); }
-  .days-crit { color: var(--accent-red); }
+  /* Medicine Card */
+  .med-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 18px;
+    margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;
+    position: relative; overflow: hidden;
+  }
+  .med-card.low { border: 1px solid var(--accent-red); }
+  
+  .med-info { flex: 1; }
+  .med-name { font-family: var(--font-serif); font-size: 17px; font-weight: 600; margin-bottom: 4px; color: #fff; }
+  .med-meta { font-size: 10px; color: var(--muted); margin-bottom: 8px; }
+  
+  /* Days Left Indicator */
+  .med-days { font-size: 11px; font-weight: 500; }
+  .days-ok { color: var(--primary); }
+  .days-warn { color: var(--accent-warn); }
+  .days-crit { color: var(--accent-red); }
 
-  /* Quantity Controls */
-  .qty-wrap { display: flex; align-items: center; gap: 8px; }
-  .qty-btn {
-    width: 36px; height: 36px; border: 1px solid var(--border);
-    background: #222; color: var(--text);
-    font-size: 20px; border-radius: 10px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .qty-btn:active { background: #333; }
-  .qty-num { font-size: 26px; min-width: 44px; text-align: center; color: var(--primary); font-weight: 500; }
-  .qty-num.alert { color: var(--accent-red); }
+  /* Quantity Controls */
+  .qty-wrap { display: flex; align-items: center; gap: 10px; }
+  .qty-btn {
+    width: 32px; height: 32px; border: 1px solid var(--border);
+    background: transparent; color: var(--text);
+    font-size: 18px; border-radius: 8px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .qty-num { font-size: 24px; min-width: 40px; text-align: center; color: var(--primary); }
+  .qty-num.alert { color: var(--accent-red); }
 
-  /* Modals */
-  .overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,0.9); backdrop-filter: blur(10px);
-    z-index: 100; align-items: center; justify-content: center; padding: 20px;
-  }
-  .overlay.open { display: flex; }
-  .modal {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 24px; padding: 28px; width: 100%; max-width: 380px;
-  }
-  .modal-title { font-family: var(--font-serif); font-size: 22px; margin-bottom: 24px; color: var(--primary); }
-  .field { margin-bottom: 18px; }
-  .field label { display: block; font-size: 10px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.05em; }
-  .field input, .field select {
-    width: 100%; background: #000; border: 1px solid var(--border);
-    border-radius: 10px; padding: 12px; color: #fff; font-family: var(--font-mono); outline: none; font-size: 14px;
-  }
-  .field input:focus { border-color: var(--primary); }
-  
-  .modal-actions { display: flex; gap: 12px; margin-top: 32px; }
-  .btn-save { background: var(--primary); color: #000; border: none; flex: 2; padding: 14px; border-radius: 12px; font-weight: 600; cursor: pointer; }
-  .btn-cancel { background: transparent; color: var(--muted); border: 1px solid var(--border); flex: 1; padding: 14px; border-radius: 12px; cursor: pointer; }
+  /* Modal Styling */
+  .overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+    z-index: 100; align-items: center; justify-content: center; padding: 20px;
+  }
+  .overlay.open { display: flex; }
+  .modal {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 24px; width: 100%; max-width: 360px;
+  }
+  .modal-title { font-family: var(--font-serif); font-size: 20px; margin-bottom: 20px; color: var(--primary); }
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 9px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .field input, .field select {
+    width: 100%; background: #000; border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px; color: #fff; font-family: var(--font-mono); outline: none;
+  }
+  .modal-actions { display: flex; gap: 10px; margin-top: 24px; }
+  .btn-save { background: var(--primary); color: #000; border: none; flex: 1; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+  .btn-cancel { background: transparent; color: var(--muted); border: 1px solid var(--border); flex: 1; padding: 12px; border-radius: 8px; cursor: pointer; }
 
-  /* Toast */
-  .toast {
-    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
-    background: var(--primary); color: #000; font-size: 12px; font-weight: 600;
-    padding: 10px 24px; border-radius: 99px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 200;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--primary); color: #000; font-size: 11px; font-weight: 600;
+    padding: 8px 20px; border-radius: 99px; transition: 0.3s ease; z-index: 200;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
 
-  .btn-delete { color: #333; background: none; border: none; font-size: 16px; cursor: pointer; padding: 5px; margin-left: 5px; }
+  .btn-delete { color: #444; background: none; border: none; font-size: 14px; cursor: pointer; margin-left: 10px;}
 </style>
 </head>
 <body>
 
 <div class="app">
-  <div class="header">
-    <div>
-      <div class="wordmark">Medicine Stock</div>
-      <div class="sub-head">Inventory · Zayab</div>
-    </div>
-    <button class="btn-add" onclick="openAdd()">+ Add</button>
-  </div>
+  <div class="header">
+    <div>
+      <div class="wordmark">Med Tracker</div>
+      <div class="sub-head">Quantity · Zayab</div>
+    </div>
+    <button class="btn-add" onclick="openAdd()">+ Add</button>
+  </div>
 
-  <div class="strip">
-    <div class="strip-card">
-      <div class="strip-label">Running low</div>
-      <div class="strip-val" id="s-low">—</div>
-      <div class="strip-sub">refill suggested</div>
-    </div>
-    <div class="strip-card">
-      <div class="strip-label">Total Meds</div>
-      <div class="strip-val" id="s-total">—</div>
-      <div class="strip-sub">active tracking</div>
-    </div>
-  </div>
+  <div class="strip">
+    <div class="strip-card">
+      <div class="strip-label">Running low</div>
+      <div class="strip-val" id="s-low">—</div>
+      <div class="strip-sub">refill suggested</div>
+    </div>
+    <div class="strip-card">
+      <div class="strip-label">Total Meds</div>
+      <div class="strip-val" id="s-total">—</div>
+      <div class="strip-sub">active tracking</div>
+    </div>
+  </div>
 
-  <div id="med-list"></div>
+  <div class="sec-label" id="list-label">Your Medications</div>
+  <div id="med-list"></div>
 </div>
 
 <div class="overlay" id="add-modal" onclick="bdClose(event,'add-modal')">
-  <div class="modal">
-    <div class="modal-title">New Entry</div>
-    
-    <div class="field">
-        <label>Medication Type</label>
-        <select id="a-type">
-            <option value="tablet">Tablet / Pill</option>
-            <option value="injection">Injection</option>
-        </select>
-    </div>
-
-    <div class="field"><label>Medication Name</label><input type="text" id="a-name" placeholder="e.g. Aranesp"></div>
-    
-    <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:12px">
-        <div class="field"><label>Dosage</label><input type="text" id="a-dose" placeholder="40mcg"></div>
-        <div class="field">
-            <label>Frequency</label>
-            <select id="a-freq">
-                <option value="1">1× daily</option>
-                <option value="2">2× daily</option>
-                <option value="0.14">Once weekly</option>
-                <option value="0.43">Dialysis days</option>
-            </select>
-        </div>
-    </div>
-    <div class="field"><label>Current Stock (Units)</label><input type="number" id="a-qty" placeholder="0"></div>
-    
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeAdd()">Cancel</button>
-      <button class="btn-save" onclick="saveAdd()">Add to List</button>
-    </div>
-  </div>
+  <div class="modal">
+    <div class="modal-title">New Medicine</div>
+    <div class="field"><label>Name</label><input type="text" id="a-name"></div>
+    <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:10px">
+        <div class="field"><label>Dose</label><input type="text" id="a-dose" placeholder="60mg"></div>
+        <div class="field">
+            <label>Frequency</label>
+            <select id="a-freq">
+                <option value="1">1× daily</option>
+                <option value="2">2× daily</option>
+                <option value="3">3× daily</option>
+                <option value="0.14">Once weekly</option>
+                <option value="0.43">Dialysis days</option>
+            </select>
+        </div>
+    </div>
+    <div class="field"><label>Current Qty</label><input type="number" id="a-qty"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeAdd()">Cancel</button>
+      <button class="btn-save" onclick="saveAdd()">Save</button>
+    </div>
+  </div>
 </div>
 
 <div class="overlay" id="refill-modal" onclick="bdClose(event,'refill-modal')">
-    <div class="modal">
-      <div class="modal-title">Log Refill</div>
-      <div id="refill-med-name" style="font-size: 12px; color: var(--muted); margin-bottom: 20px; margin-top: -15px;"></div>
-      <div class="field"><label>Units Received</label><input type="number" id="r-qty" placeholder="0"></div>
-      <div class="modal-actions">
-        <button class="btn-cancel" onclick="closeRefill()">Cancel</button>
-        <button class="btn-save" onclick="saveRefill()">Update Stock</button>
-      </div>
-    </div>
-</div>
+    <div class="modal">
+      <div class="modal-title">Add Refill</div>
+      <div class="field"><label>Units Received</label><input type="number" id="r-qty"></div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeRefill()">Cancel</button>
+        <button class="btn-save" onclick="saveRefill()">Update Stock</button>
+      </div>
+    </div>
+  </div>
 
 <div class="toast" id="toast">Saved ✓</div>
 
 <script>
-  let meds = JSON.parse(localStorage.getItem('medstock_v1') || '[]');
-  let refillTarget = null;
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxDbzTp5ATJJVQzG03MhLp1jyXGLVWbkRsCAZhbS5tATtxR86FmAPu22-RKo9ronkp3_g/exec';
+  let meds = JSON.parse(localStorage.getItem('medstock_v1') || '[]');
+  let refillTarget = null;
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxDbzTp5ATJJVQzG03MhLp1jyXGLVWbkRsCAZhbS5tATtxR86FmAPu22-RKo9ronkp3_g/exec';
 
-  function uid() { return '_' + Math.random().toString(36).slice(2,9); }
+  function uid() { return '_' + Math.random().toString(36).slice(2,9); }
 
-  async function save() {
-    localStorage.setItem('medstock_v1', JSON.stringify(meds));
-    try {
-      await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(meds) });
-    } catch (e) { console.error("Cloud Error"); }
-  }
+  async function save() {
+    localStorage.setItem('medstock_v1', JSON.stringify(meds));
+    try {
+      await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(meds) });
+    } catch (e) { console.error("Cloud Error", e); }
+  }
 
-  function daysLeft(m) { return m.freq ? Math.floor(m.qty / m.freq) : 0; }
+  function daysLeft(m) { return m.freq ? Math.floor(m.qty / m.freq) : 0; }
 
-  function cardHTML(m) {
-      const d = daysLeft(m);
-      const dayState = d <= 3 ? 'crit' : d <= 10 ? 'warn' : 'ok';
-      const isLow = d <= 7;
-      return `
-        <div class="med-card ${isLow ? 'low' : ''}">
-          <div class="med-info">
-            <div class="med-name">${m.name}</div>
-            <div class="med-meta">${m.dose} · ${m.qty} units left</div>
-            <div class="med-days days-${dayState}">${d} days remaining</div>
-          </div>
-          <div class="qty-wrap">
-            <button class="qty-btn" onclick="adjust('${m.id}',-1)">−</button>
-            <div class="qty-num ${isLow ? 'alert' : ''}">${m.qty}</div>
-            <button class="qty-btn" onclick="openRefill('${m.id}')">+</button>
-            <button class="btn-delete" onclick="deleteMed('${m.id}')">✕</button>
-          </div>
-        </div>`;
-  }
+  function render() {
+    const list = document.getElementById('med-list');
+    const lowCount = meds.filter(m => daysLeft(m) <= 7).length;
+    
+    document.getElementById('s-low').textContent = lowCount;
+    document.getElementById('s-low').className = lowCount > 0 ? 'strip-val alert' : 'strip-val';
+    document.getElementById('s-total').textContent = meds.length;
 
-  function render() {
-    const list = document.getElementById('med-list');
-    const lowCount = meds.filter(m => daysLeft(m) <= 7).length;
-    document.getElementById('s-low').textContent = lowCount;
-    document.getElementById('s-low').className = lowCount > 0 ? 'strip-val alert' : 'strip-val';
-    document.getElementById('s-total').textContent = meds.length;
+    meds.sort((a,b) => daysLeft(a) - daysLeft(b));
+    
+    list.innerHTML = meds.map(m => {
+      const d = daysLeft(m);
+      const dayState = d <= 3 ? 'crit' : d <= 10 ? 'warn' : 'ok';
+      const isLow = d <= 7;
+      
+      return `
+        <div class="med-card ${isLow ? 'low' : ''}">
+          <div class="med-info">
+            <div class="med-name">${m.name}</div>
+            <div class="med-meta">${m.dose} · ${m.qty} units left</div>
+            <div class="med-days days-${dayState}">${d} days remaining</div>
+          </div>
+          <div class="qty-wrap">
+            <button class="qty-btn" onclick="adjust('${m.id}',-1)">−</button>
+            <div class="qty-num ${isLow ? 'alert' : ''}">${m.qty}</div>
+            <button class="qty-btn" onclick="openRefill('${m.id}')">+</button>
+            <button class="btn-delete" onclick="deleteMed('${m.id}')">✕</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
 
-    const injections = meds.filter(m => m.type === 'injection').sort((a,b) => daysLeft(a)-daysLeft(b));
-    const tablets = meds.filter(m => m.type !== 'injection').sort((a,b) => daysLeft(a)-daysLeft(b));
+  function adjust(id, delta) {
+    const m = meds.find(x => x.id === id);
+    if (m) { m.qty = Math.max(0, m.qty + delta); save(); render(); showToast('Updated'); }
+  }
 
-    let html = '';
-    if (injections.length > 0) {
-      html += `<div class="sec-label inj">💉 Injections</div>` + injections.map(cardHTML).join('');
-    }
-    if (tablets.length > 0) {
-      html += `<div class="sec-label">💊 Tablets & Capsules</div>` + tablets.map(cardHTML).join('');
-    }
-    list.innerHTML = html || '<div style="text-align:center; padding:40px; color:#444">No meds tracked.</div>';
-  }
+  function deleteMed(id) {
+    if(confirm('Delete?')) { meds = meds.filter(x => x.id !== id); save(); render(); }
+  }
 
-  function adjust(id, delta) {
-    const m = meds.find(x => x.id === id);
-    if (m) { m.qty = Math.max(0, m.qty + delta); save(); render(); showToast('Stock Updated'); }
-  }
+  function openAdd() { document.getElementById('add-modal').classList.add('open'); }
+  function closeAdd() { document.getElementById('add-modal').classList.remove('open'); }
+  
+  function saveAdd() {
+    const name = document.getElementById('a-name').value;
+    if(!name) return;
+    meds.push({
+      id: uid(), name,
+      dose: document.getElementById('a-dose').value || '—',
+      freq: parseFloat(document.getElementById('a-freq').value),
+      qty: parseInt(document.getElementById('a-qty').value) || 0
+    });
+    save(); render(); closeAdd(); showToast('Added');
+  }
 
-  function deleteMed(id) {
-    if(confirm('Remove medication?')) { meds = meds.filter(x => x.id !== id); save(); render(); }
-  }
+  function openRefill(id) { refillTarget = id; document.getElementById('refill-modal').classList.add('open'); }
+  function closeRefill() { document.getElementById('refill-modal').classList.remove('open'); }
+  function saveRefill() {
+    const val = parseInt(document.getElementById('r-qty').value);
+    const m = meds.find(x => x.id === refillTarget);
+    if(m && val) { m.qty += val; save(); render(); closeRefill(); showToast('Refilled'); }
+  }
 
-  function openAdd() { 
-    document.getElementById('add-modal').classList.add('open'); 
-    setTimeout(() => document.getElementById('a-name').focus(), 100);
-  }
+  function bdClose(e, id) { if(e.target.id === id) { closeAdd(); closeRefill(); } }
+  
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  }
 
-  function closeAdd() { 
-    document.getElementById('add-modal').classList.remove('open'); 
-    document.getElementById('a-name').value = '';
-    document.getElementById('a-dose').value = '';
-    document.getElementById('a-qty').value = '';
-  }
-  
-  function saveAdd() {
-    const name = document.getElementById('a-name').value.trim();
-    const qty = parseInt(document.getElementById('a-qty').value);
-    if(!name || isNaN(qty)) return;
-
-    meds.push({
-      id: uid(), 
-      name: name,
-      type: document.getElementById('a-type').value,
-      dose: document.getElementById('a-dose').value || '—',
-      freq: parseFloat(document.getElementById('a-freq').value),
-      qty: qty
-    });
-
-    save(); render(); closeAdd(); showToast('Added ✓');
-  }
-
-  function openRefill(id) { 
-    refillTarget = id; 
-    const m = meds.find(x => x.id === id);
-    document.getElementById('refill-med-name').textContent = `Updating: ${m.name}`;
-    document.getElementById('refill-modal').classList.add('open'); 
-    setTimeout(() => document.getElementById('r-qty').focus(), 100);
-  }
-
-  function closeRefill() { document.getElementById('refill-modal').classList.remove('open'); document.getElementById('r-qty').value = ''; }
-
-  function saveRefill() {
-    const val = parseInt(document.getElementById('r-qty').value);
-    const m = meds.find(x => x.id === refillTarget);
-    if(m && !isNaN(val)) { m.qty += val; save(); render(); closeRefill(); showToast('Refill Logged ✓'); }
-  }
-
-  function bdClose(e, id) { if(e.target.id === id) { id === 'add-modal' ? closeAdd() : closeRefill(); } }
-  
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg; t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2000);
-  }
-
-  render();
+  render();
 </script>
 </body>
 </html>
-<!-- Repeat for a-dose, a-freq, a-qty, and r-qty -->
